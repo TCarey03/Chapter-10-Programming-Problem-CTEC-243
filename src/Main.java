@@ -34,5 +34,18 @@ public class Main {
 
         System.out.println("Seattle to Miami: "
                 + graph.bfs("Seattle", "Miami"));
+
+
+        // Phase 3: DFS Connectivity Tests
+        System.out.println("\nDFS Connectivity Tests:");
+
+        System.out.println("New York to Los Angeles: "
+                + graph.dfs("New York", "Los Angeles"));
+
+        System.out.println("New York to Miami: "
+                + graph.dfs("New York", "Miami"));
+
+        System.out.println("Seattle to Miami: "
+                + graph.dfs("Seattle", "Miami"));
     }
 }

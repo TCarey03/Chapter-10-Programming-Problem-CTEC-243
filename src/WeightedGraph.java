@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Queue;
 import java.util.LinkedList;
+import java.util.Stack;
 
 public class WeightedGraph<T> {
 
@@ -22,6 +23,7 @@ public class WeightedGraph<T> {
 
     // Phase 1: Add a vertex
     public void addVertex(T vertex) {
+
         if (vertices.size() < matrix.length) {
             vertices.add(vertex);
         } else {
@@ -56,8 +58,8 @@ public class WeightedGraph<T> {
             for (int j = 0; j < vertices.size(); j++) {
 
                 if (matrix[i][j] != -1) {
-                    System.out.print(vertices.get(j) +
-                            "(" + matrix[i][j] + ") ");
+                    System.out.print(vertices.get(j)
+                            + "(" + matrix[i][j] + ") ");
                 }
             }
 
@@ -78,7 +80,6 @@ public class WeightedGraph<T> {
         boolean[] visited = new boolean[vertices.size()];
         Queue<Integer> queue = new LinkedList<>();
 
-        // Add starting city to queue
         visited[start] = true;
         queue.add(start);
 
@@ -86,12 +87,10 @@ public class WeightedGraph<T> {
 
             int current = queue.remove();
 
-            // Check if destination was found
             if (current == end) {
                 return true;
             }
 
-            // Explore neighboring cities
             for (int i = 0; i < vertices.size(); i++) {
 
                 if (matrix[current][i] != -1 && !visited[i]) {
@@ -102,7 +101,45 @@ public class WeightedGraph<T> {
             }
         }
 
-        // No path was found
+        return false;
+    }
+
+    // Phase 3: Depth-First Search (DFS)
+    public boolean dfs(T startVertex, T endVertex) {
+
+        int start = vertices.indexOf(startVertex);
+        int end = vertices.indexOf(endVertex);
+
+        if (start == -1 || end == -1) {
+            return false;
+        }
+
+        boolean[] visited = new boolean[vertices.size()];
+        Stack<Integer> stack = new Stack<>();
+
+        stack.push(start);
+
+        while (!stack.isEmpty()) {
+
+            int current = stack.pop();
+
+            if (current == end) {
+                return true;
+            }
+
+            if (!visited[current]) {
+
+                visited[current] = true;
+
+                for (int i = 0; i < vertices.size(); i++) {
+
+                    if (matrix[current][i] != -1 && !visited[i]) {
+                        stack.push(i);
+                    }
+                }
+            }
+        }
+
         return false;
     }
 }
