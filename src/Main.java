@@ -22,5 +22,17 @@ public class Main {
 
         // Display the graph
         graph.displayGraph();
+
+        // Test BFS connectivity
+        System.out.println("\nBFS Connectivity Tests:");
+
+        System.out.println("New York to Los Angeles: "
+                + graph.bfs("New York", "Los Angeles"));
+
+        System.out.println("New York to Miami: "
+                + graph.bfs("New York", "Miami"));
+
+        System.out.println("Seattle to Miami: "
+                + graph.bfs("Seattle", "Miami"));
     }
 }

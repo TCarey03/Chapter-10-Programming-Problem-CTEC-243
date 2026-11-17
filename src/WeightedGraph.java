@@ -1,14 +1,18 @@
 import java.util.ArrayList;
+import java.util.Queue;
+import java.util.LinkedList;
 
 public class WeightedGraph<T> {
+
     private ArrayList<T> vertices;
     private int[][] matrix;
 
+    // Constructor
     public WeightedGraph(int size) {
         vertices = new ArrayList<>();
         matrix = new int[size][size];
 
-        // -1 means no connection
+        // -1 represents no connection
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 matrix[i][j] = -1;
@@ -16,7 +20,7 @@ public class WeightedGraph<T> {
         }
     }
 
-    // Add a vertex (city)
+    // Phase 1: Add a vertex
     public void addVertex(T vertex) {
         if (vertices.size() < matrix.length) {
             vertices.add(vertex);
@@ -25,8 +29,9 @@ public class WeightedGraph<T> {
         }
     }
 
-    // Add a weighted edge (route)
+    // Phase 1: Add a weighted edge
     public void addEdge(T from, T to, int weight) {
+
         int fromIndex = vertices.indexOf(from);
         int toIndex = vertices.indexOf(to);
 
@@ -41,12 +46,15 @@ public class WeightedGraph<T> {
 
     // Display the graph
     public void displayGraph() {
+
         System.out.println("Weighted Graph:");
 
         for (int i = 0; i < vertices.size(); i++) {
+
             System.out.print(vertices.get(i) + ": ");
 
             for (int j = 0; j < vertices.size(); j++) {
+
                 if (matrix[i][j] != -1) {
                     System.out.print(vertices.get(j) +
                             "(" + matrix[i][j] + ") ");
@@ -55,5 +63,46 @@ public class WeightedGraph<T> {
 
             System.out.println();
         }
+    }
+
+    // Phase 2: Breadth-First Search (BFS)
+    public boolean bfs(T startVertex, T endVertex) {
+
+        int start = vertices.indexOf(startVertex);
+        int end = vertices.indexOf(endVertex);
+
+        if (start == -1 || end == -1) {
+            return false;
+        }
+
+        boolean[] visited = new boolean[vertices.size()];
+        Queue<Integer> queue = new LinkedList<>();
+
+        // Add starting city to queue
+        visited[start] = true;
+        queue.add(start);
+
+        while (!queue.isEmpty()) {
+
+            int current = queue.remove();
+
+            // Check if destination was found
+            if (current == end) {
+                return true;
+            }
+
+            // Explore neighboring cities
+            for (int i = 0; i < vertices.size(); i++) {
+
+                if (matrix[current][i] != -1 && !visited[i]) {
+
+                    visited[i] = true;
+                    queue.add(i);
+                }
+            }
+        }
+
+        // No path was found
+        return false;
     }
 }
